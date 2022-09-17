@@ -54,6 +54,7 @@ static size_t encode_sysex(struct midi_ostream *stream,
 		buffer[1] = MIDI_TYPE_SOX;
 		buffer[2] = *sdata;
 		buffer[3] = MIDI_TYPE_EOX;
+		stream->remaining = (size_t)remaining;
 		return write_buffer(stream, buffer);
 	default:
 		/* SysEx starts: */
@@ -62,11 +63,13 @@ static size_t encode_sysex(struct midi_ostream *stream,
 		buffer[1] = MIDI_TYPE_SOX;
 		buffer[2] = *sdata++;
 		buffer[3] = *sdata++;
+		stream->remaining = (size_t)remaining;
 
 		while (remaining >= 0) {
-			remaining -= 3;
-
+			stream->remaining = (size_t)remaining;
 			size_t n = write_buffer(stream, buffer);
+			remaining -= 3;
+			
 			num_written += n;
 			if (n < 4)
 				return num_written;

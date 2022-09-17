@@ -61,6 +61,7 @@ struct midi_ostream {
 	 * to #MIDI_STREAM_CAPACITY_UNLIMITED.
 	 */
 	size_t capacity;
+	size_t remaining;
 	/** Optional parameter to be passed to write_cb() */
 	void *param;
 };
