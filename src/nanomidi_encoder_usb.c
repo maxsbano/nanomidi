@@ -98,7 +98,8 @@ static size_t encode_sysex(struct midi_ostream *stream,
 				break;
 			default:
 				/* SysEx continues: */
-				for (int i = 0; i < 3; i++)
+				buffer[0] = USB_BYTE0(cable_number, 0x04);
+				for (int i = 1; i < 4; i++)
 					buffer[i] = *sdata++;
 				break;
 			}
